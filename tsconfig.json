@@ -1,4 +1,4 @@
-{
+/*{
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
@@ -41,4 +41,32 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   }
+}*/
+
+// {
+//   "compilerOptions": {
+//     "module": "commonjs",                                
+//     "rootDir": "./src",
+//     "outDir": "./dist",  
+//     // "target": "esnext",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true
+//   },
+// }
+
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "esModuleInterop": true,
+    "strict": true,    
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
