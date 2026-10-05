@@ -22,16 +22,51 @@ export const auth = betterAuth({
         required: false,
         input: true,
       },
-      role: {
+      requestedRole: {
         type: "string",
         required: false,
-        defaultValue: "STUDENT",
         input: true,
       },
       status: {
         type: "string",
         required: false,
         defaultValue: "ACTIVE",
+      },
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          // Assign TEACHER if requested, otherwise default to STUDENT (ADMIN can only be set by existing admin)
+          const targetRole =
+            (user as any).requestedRole === "TEACHER" ? "TEACHER" : "STUDENT";
+          return {
+            data: {
+              ...user,
+              role: targetRole,
+            },
+          };
+        },
+        after: async (user) => {
+          try {
+            if ((user as any).role === "TEACHER") {
+              await prisma.teacherProfile.upsert({
+                where: { userId: user.id },
+                update: {},
+                create: { userId: user.id },
+              });
+            } else {
+              await prisma.studentProfile.upsert({
+                where: { userId: user.id },
+                update: {},
+                create: { userId: user.id },
+              });
+            }
+          } catch (error) {
+            console.error("Error creating initial profile:", error);
+          }
+        },
       },
     },
   },
