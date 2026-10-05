@@ -1,0 +1,56 @@
+model ClassSchedule {
+  id          String    @id @default(cuid())
+  title       String
+  dayOfWeek   DayOfWeek
+  startTime   String
+  endTime     String
+  meetingLink String?
+  teacherId   String
+  teacher     User      @relation("TeacherSchedules", fields: [teacherId], references: [id], onDelete: Cascade)
+  studentId   String?
+  student     User?     @relation("StudentSchedules", fields: [studentId], references: [id], onDelete: SetNull)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([teacherId])
+  @@index([studentId])
+  @@map("class_schedule")
+}
+
+model HomeTask {
+  id           String            @id @default(cuid())
+  title        String
+  description  String
+  surahName    String?
+  startAyah    Int?
+  endAyah      Int?
+  dueDate      DateTime?
+  teacherId    String
+  teacher      User              @relation("TeacherCreatedTasks", fields: [teacherId], references: [id], onDelete: Cascade)
+  studentTasks StudentHomeTask[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([teacherId])
+  @@map("home_task")
+}
+
+model StudentHomeTask {
+  id                 String     @id @default(cuid())
+  taskId             String
+  task               HomeTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  studentId          String
+  student            User       @relation("StudentAssignedTasks", fields: [studentId], references: [id], onDelete: Cascade)
+  status             TaskStatus @default(ASSIGNED)
+  submissionNote     String?
+  submissionAudioUrl String?
+  submittedAt        DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@unique([taskId, studentId])
+  @@index([studentId])
+  @@index([status])
+  @@map("student_home_task")
+}

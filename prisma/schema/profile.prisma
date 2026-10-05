@@ -1,0 +1,48 @@
+model StudentProfile {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age                Int?
+  gender             String?
+  phone              String?
+  guardianName       String?
+  guardianPhone      String?
+  address            String?
+  currentJuz         Int?               @default(1)
+  currentSurah       String?
+  currentAyah        Int?
+  targetSurah        String?
+  learningLevel      String?            @default("BEGINNER")
+  verificationStatus VerificationStatus @default(PENDING)
+  rejectionReason    String?
+  verifiedAt         DateTime?
+  verifiedBy         String?
+  assignedTeacherId  String?
+  assignedTeacher    TeacherProfile?    @relation("TeacherStudents", fields: [assignedTeacherId], references: [id], onDelete: SetNull)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([assignedTeacherId])
+  @@index([verificationStatus])
+  @@map("student_profile")
+}
+
+model TeacherProfile {
+  id              String           @id @default(cuid())
+  userId          String           @unique
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?
+  phone           String?
+  gender          String?
+  qualifications  String?
+  experienceYears Int?             @default(0)
+  specialization  String?
+  maxStudents     Int?             @default(20)
+  students        StudentProfile[] @relation("TeacherStudents")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([userId])
+  @@map("teacher_profile")
+}

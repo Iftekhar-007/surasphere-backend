@@ -1,0 +1,56 @@
+model DailyProgress {
+  id                String   @id @default(cuid())
+  studentId         String
+  student           User     @relation("StudentDailyProgress", fields: [studentId], references: [id], onDelete: Cascade)
+  date              DateTime @default(now())
+  sabqSurah         String?
+  sabqAyahRange     String?
+  sabqiSurah        String?
+  manzilJuz         Int?
+  memorizationScore Int?
+  tajweedScore      Int?
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([studentId])
+  @@index([date])
+  @@map("daily_progress")
+}
+
+model DailyFeedback {
+  id                String   @id @default(cuid())
+  teacherId         String
+  teacher           User     @relation("TeacherDailyFeedback", fields: [teacherId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("StudentDailyFeedback", fields: [studentId], references: [id], onDelete: Cascade)
+  date              DateTime @default(now())
+  performanceRating Int
+  feedbackComment   String
+  mistakesNotes     String?
+  nextDayLesson     String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([teacherId])
+  @@index([studentId])
+  @@index([date])
+  @@map("daily_feedback")
+}
+
+model TeacherReview {
+  id        String   @id @default(cuid())
+  studentId String
+  student   User     @relation("StudentTeacherReview", fields: [studentId], references: [id], onDelete: Cascade)
+  teacherId String
+  teacher   User     @relation("TeacherReceivedReview", fields: [teacherId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, teacherId])
+  @@index([studentId])
+  @@index([teacherId])
+  @@map("teacher_review")
+}

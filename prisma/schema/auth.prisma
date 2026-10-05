@@ -1,66 +1,93 @@
 model User {
-    id            String    @id
-    name          String
-    email         String
-    rollNumber    String    @unique
-    password      String
-    emailVerified Boolean   @default(false)
-    image         String?
-    createdAt     DateTime  @default(now())
-    updatedAt     DateTime  @updatedAt
-    sessions      Session[]
-    accounts      Account[]
+  id                    String            @id @default(cuid())
+  name                  String
+  email                 String            @unique
+  emailVerified         Boolean           @default(false)
+  image                 String?
+  rollNumber            String?           @unique
+  role                  Role              @default(STUDENT)
+  status                UserStatus        @default(ACTIVE)
+  banned                Boolean?          @default(false)
+  banReason             String?
+  banExpires            DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
 
-    @@unique([email])
-    @@index([rollNumber])
-    @@map("user")
+  // Better Auth Relations
+  sessions              Session[]
+  accounts              Account[]
+
+  // Profiles
+  studentProfile        StudentProfile?
+  teacherProfile        TeacherProfile?
+
+  // Schedules
+  teacherSchedules      ClassSchedule[]   @relation("TeacherSchedules")
+  studentSchedules      ClassSchedule[]   @relation("StudentSchedules")
+
+  // Tasks
+  createdTasks          HomeTask[]        @relation("TeacherCreatedTasks")
+  studentTasks          StudentHomeTask[] @relation("StudentAssignedTasks")
+
+  // Daily Progress & Feedbacks
+  dailyProgress         DailyProgress[]   @relation("StudentDailyProgress")
+  givenFeedbacks        DailyFeedback[]   @relation("TeacherDailyFeedback")
+  receivedFeedbacks     DailyFeedback[]   @relation("StudentDailyFeedback")
+
+  // Reviews
+  givenReviews          TeacherReview[]   @relation("StudentTeacherReview")
+  receivedReviews       TeacherReview[]   @relation("TeacherReceivedReview")
+
+  @@index([rollNumber])
+  @@index([role])
+  @@index([status])
+  @@map("user")
 }
 
 model Session {
-    id         String   @id
-    rollNumber String   @unique
-    expiresAt  DateTime
-    token      String
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    ipAddress  String?
-    userAgent  String?
-    userId     String
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String    @id @default(cuid())
+  expiresAt      DateTime
+  token          String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy String?
 
-    @@unique([token])
-    @@index([userId, rollNumber])
-    @@map("session")
+  @@index([userId])
+  @@map("session")
 }
 
 model Account {
-    id                    String    @id
-    accountId             String
-    providerId            String
-    userId                String
-    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    accessToken           String?
-    refreshToken          String?
-    idToken               String?
-    accessTokenExpiresAt  DateTime?
-    refreshTokenExpiresAt DateTime?
-    scope                 String?
-    password              String?
-    createdAt             DateTime  @default(now())
-    updatedAt             DateTime  @updatedAt
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-    @@index([userId])
-    @@map("account")
+  @@index([userId])
+  @@map("account")
 }
 
 model Verification {
-    id         String   @id
-    identifier String
-    value      String
-    expiresAt  DateTime
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
-    @@index([identifier])
-    @@map("verification")
+  @@index([identifier])
+  @@map("verification")
 }

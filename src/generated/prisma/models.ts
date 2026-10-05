@@ -8,4 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/ClassSchedule'
+export type * from './models/HomeTask'
+export type * from './models/StudentHomeTask'
+export type * from './models/User'
+export type * from './models/Session'
+export type * from './models/Account'
+export type * from './models/Verification'
+export type * from './models/StudentProfile'
+export type * from './models/TeacherProfile'
+export type * from './models/DailyProgress'
+export type * from './models/DailyFeedback'
+export type * from './models/TeacherReview'
 export type * from './commonInputTypes'

@@ -31,8 +31,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more ClassSchedules
+ * const classSchedules = await prisma.classSchedule.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -41,4 +41,63 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-
+/**
+ * Model ClassSchedule
+ * 
+ */
+export type ClassSchedule = Prisma.ClassScheduleModel
+/**
+ * Model HomeTask
+ * 
+ */
+export type HomeTask = Prisma.HomeTaskModel
+/**
+ * Model StudentHomeTask
+ * 
+ */
+export type StudentHomeTask = Prisma.StudentHomeTaskModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model Account
+ * 
+ */
+export type Account = Prisma.AccountModel
+/**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
+/**
+ * Model StudentProfile
+ * 
+ */
+export type StudentProfile = Prisma.StudentProfileModel
+/**
+ * Model TeacherProfile
+ * 
+ */
+export type TeacherProfile = Prisma.TeacherProfileModel
+/**
+ * Model DailyProgress
+ * 
+ */
+export type DailyProgress = Prisma.DailyProgressModel
+/**
+ * Model DailyFeedback
+ * 
+ */
+export type DailyFeedback = Prisma.DailyFeedbackModel
+/**
+ * Model TeacherReview
+ * 
+ */
+export type TeacherReview = Prisma.TeacherReviewModel
