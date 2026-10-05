@@ -26,7 +26,8 @@ export const checkAuth = (...requiredRoles) => {
                     : "Your account has been blocked by an administrator.");
             }
             // Check role permissions
-            if (requiredRoles.length > 0 && !requiredRoles.includes(user.role)) {
+            const userRole = (user.role || "STUDENT");
+            if (requiredRoles.length > 0 && !requiredRoles.includes(userRole)) {
                 throw new AppError(status.FORBIDDEN, "You do not have permission to access this resource.");
             }
             req.user = user;

@@ -137,6 +137,7 @@ export const UserScalarFieldEnum = {
   image: 'image',
   rollNumber: 'rollNumber',
   role: 'role',
+  requestedRole: 'requestedRole',
   status: 'status',
   banned: 'banned',
   banReason: 'banReason',

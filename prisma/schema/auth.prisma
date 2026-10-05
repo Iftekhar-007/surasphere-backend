@@ -5,8 +5,9 @@ model User {
   emailVerified         Boolean           @default(false)
   image                 String?
   rollNumber            String?           @unique
-  role                  Role              @default(STUDENT)
-  status                UserStatus        @default(ACTIVE)
+  role                  String?           @default("STUDENT")
+  requestedRole         String?
+  status                String?           @default("ACTIVE")
   banned                Boolean?          @default(false)
   banReason             String?
   banExpires            DateTime?

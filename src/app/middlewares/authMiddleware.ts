@@ -49,7 +49,8 @@ export const checkAuth = (...requiredRoles: Role[]) => {
       }
 
       // Check role permissions
-      if (requiredRoles.length > 0 && !requiredRoles.includes(user.role)) {
+      const userRole = (user.role || "STUDENT") as Role;
+      if (requiredRoles.length > 0 && !requiredRoles.includes(userRole)) {
         throw new AppError(
           status.FORBIDDEN,
           "You do not have permission to access this resource."
