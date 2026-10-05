@@ -6,7 +6,7 @@ import AppError from "../app/errorhelpers/AppError";
 dotenv.config();
 
 interface EnvConfig {
-  //   NODE_ENV: string;
+  NODE_ENV: string;
   PORT: string;
   DATABASE_URL: string;
   BETTER_AUTH_SECRET: string;
@@ -78,7 +78,7 @@ const loadEnvVariables = (): EnvConfig => {
   });
 
   return {
-    // NODE_ENV: process.env.NODE_ENV || "development",
+    NODE_ENV: process.env.NODE_ENV || "development",
     PORT: process.env.PORT || "5000",
     DATABASE_URL: process.env.DATABASE_URL!,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET!,
