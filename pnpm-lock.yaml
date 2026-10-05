@@ -196,6 +196,9 @@ importers:
       pg:
         specifier: ^8.23.0
         version: 8.23.0
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
@@ -206,6 +209,9 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
+      '@types/multer':
+        specifier: ^2.3.0
+        version: 2.3.0
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.3
@@ -773,6 +779,9 @@ packages:
 
   '@types/lodash@4.17.25':
     resolution: {integrity: sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==}
+
+  '@types/multer@2.3.0':
+    resolution: {integrity: sha512-i7STIm9V4K2MPH4ZYMtrZAwNxs3kglk2LgleaTuB9pUXgADBcQYQuYMd7+6xgTIxfoggIkFA/DkkvycdZpIARA==}
 
   '@types/node@26.6.3':
     resolution: {integrity: sha512-dsqMQQoeTLqu9wynDD00q573mNzso3IdQOAfHRJqLCcmCFPoGo9A1bDpUcv/9tnKpErQWv9uKeGfl37EIS02Yg==}
@@ -2375,6 +2384,10 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/lodash@4.17.25': {}
+
+  '@types/multer@2.3.0':
+    dependencies:
+      '@types/express': 5.0.6
 
   '@types/node@26.6.3':
     dependencies:
