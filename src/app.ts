@@ -16,8 +16,9 @@ app.use(
   })
 );
 
-// Better Auth endpoint handler
-app.all("/api/auth/*", toNodeHandler(auth));
+// Better Auth endpoint handler (Express 5 wildcard syntax: *splat)
+app.all("/api/auth/*splat", toNodeHandler(auth));
+app.all("/api/auth", toNodeHandler(auth));
 
 // Middleware to parse URL-encoded and JSON bodies
 app.use(express.urlencoded({ extended: true }));
