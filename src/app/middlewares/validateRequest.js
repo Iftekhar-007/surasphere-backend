@@ -7,9 +7,9 @@ export const validateRequest = (schema) => {
                 params: req.params,
                 cookies: req.cookies,
             });
-            req.body = parsed.body ?? req.body;
-            req.query = parsed.query ?? req.query;
-            req.params = parsed.params ?? req.params;
+            if (parsed.body !== undefined) {
+                req.body = parsed.body;
+            }
             return next();
         }
         catch (error) {

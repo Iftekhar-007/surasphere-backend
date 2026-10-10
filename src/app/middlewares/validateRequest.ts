@@ -10,9 +10,9 @@ export const validateRequest = (schema: ZodTypeAny) => {
         params: req.params,
         cookies: req.cookies,
       });
-      req.body = (parsed as any).body ?? req.body;
-      req.query = (parsed as any).query ?? req.query;
-      req.params = (parsed as any).params ?? req.params;
+      if ((parsed as any).body !== undefined) {
+        req.body = (parsed as any).body;
+      }
       return next();
     } catch (error) {
       return next(error);

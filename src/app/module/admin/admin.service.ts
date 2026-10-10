@@ -300,9 +300,9 @@ const verifyStudentProfileIntoDB = async (
     where: { id: payload.studentProfileId },
     data: {
       verificationStatus: payload.status,
-      rejectionReason: payload.rejectionReason,
+      rejectionReason: payload.status === "REJECTED" ? (payload.rejectionReason || "Verification rejected by admin.") : null,
       verifiedAt: payload.status === "VERIFIED" ? new Date() : null,
-      verifiedBy: adminUserId,
+      verifiedBy: payload.status === "VERIFIED" ? adminUserId : null,
       ...(payload.assignedTeacherId && { assignedTeacherId: payload.assignedTeacherId }),
     },
     include: {
