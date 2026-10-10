@@ -30,11 +30,16 @@ export const uploadToCloudinary = (
       },
       (error, result) => {
         if (error || !result) {
+          const isConfigError =
+            error?.message?.includes("cloud_name") ||
+            error?.http_code === 401 ||
+            error?.message?.includes("Must supply api_key");
+          const errorMsg = isConfigError
+            ? `Cloudinary Configuration Error: ${error?.message || "Invalid credentials"}. Please check CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in your backend .env file.`
+            : (error?.message || "Failed to upload file to Cloudinary");
+
           return reject(
-            new AppError(
-              status.BAD_REQUEST,
-              error?.message || "Failed to upload file to Cloudinary"
-            )
+            new AppError(status.BAD_REQUEST, errorMsg)
           );
         }
         resolve({

@@ -17,8 +17,12 @@ router.patch(
   "/profile",
   upload.single("image"),
   (req, res, next) => {
-    if (req.body.data) {
-      req.body = JSON.parse(req.body.data);
+    if (req.body && req.body.data) {
+      try {
+        req.body = typeof req.body.data === "string" ? JSON.parse(req.body.data) : req.body.data;
+      } catch (err) {
+        // continue with existing body
+      }
     }
     next();
   },

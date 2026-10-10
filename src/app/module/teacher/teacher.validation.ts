@@ -1,15 +1,37 @@
 import { z } from "zod";
 
+const emptyStringToUndefined = (val: unknown) => {
+  if (val === "" || val === null || val === undefined) return undefined;
+  return val;
+};
+
+const optionalNumber = (min?: number, max?: number) => {
+  return z.preprocess((val) => {
+    const cleaned = emptyStringToUndefined(val);
+    if (cleaned === undefined) return undefined;
+    const num = Number(cleaned);
+    return isNaN(num) ? cleaned : num;
+  }, min !== undefined && max !== undefined ? z.number().min(min).max(max).optional() : min !== undefined ? z.number().min(min).optional() : z.number().optional());
+};
+
+const optionalString = () => {
+  return z.preprocess((val) => {
+    const cleaned = emptyStringToUndefined(val);
+    if (cleaned === undefined) return undefined;
+    return String(cleaned);
+  }, z.string().optional());
+};
+
 const updateTeacherProfileValidationSchema = z.object({
   body: z.object({
-    name: z.string().optional(),
-    bio: z.string().optional(),
-    phone: z.string().optional(),
-    gender: z.string().optional(),
-    qualifications: z.string().optional(),
-    experienceYears: z.coerce.number().optional(),
-    specialization: z.string().optional(),
-    maxStudents: z.coerce.number().optional(),
+    name: optionalString(),
+    bio: optionalString(),
+    phone: optionalString(),
+    gender: optionalString(),
+    qualifications: optionalString(),
+    experienceYears: optionalNumber(0, 100),
+    specialization: optionalString(),
+    maxStudents: optionalNumber(1, 500),
   }),
 });
 
