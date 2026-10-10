@@ -38,9 +38,15 @@ export const auth = betterAuth({
     user: {
       create: {
         before: async (user) => {
-          // Assign TEACHER if requested, otherwise default to STUDENT (ADMIN can only be set by existing admin)
+          // Assign ADMIN if requested or passed, TEACHER if requested, otherwise default to STUDENT
+          const requestedRole = (user as any).requestedRole;
+          const currentRole = (user as any).role;
           const targetRole =
-            (user as any).requestedRole === "TEACHER" ? "TEACHER" : "STUDENT";
+            currentRole === "ADMIN" || requestedRole === "ADMIN"
+              ? "ADMIN"
+              : requestedRole === "TEACHER"
+              ? "TEACHER"
+              : "STUDENT";
           return {
             data: {
               ...user,
@@ -56,7 +62,7 @@ export const auth = betterAuth({
                 update: {},
                 create: { userId: user.id },
               });
-            } else {
+            } else if ((user as any).role === "STUDENT") {
               await prisma.studentProfile.upsert({
                 where: { userId: user.id },
                 update: {},
@@ -79,6 +85,8 @@ export const auth = betterAuth({
   ],
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 6,
+    maxPasswordLength: 128,
   },
   advanced: {
     useSecureCookies: envVars.NODE_ENV === "production",

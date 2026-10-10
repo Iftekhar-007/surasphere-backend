@@ -33,6 +33,11 @@ interface EnvConfig {
     API_KEY: string;
     API_SECRET: string;
   };
+  ADMIN: {
+    EMAIL: string;
+    PASSWORD: string;
+    NAME: string;
+  };
   //   STRIPE: {
   //     SECRET_KEY: string;
   //     WEBHOOK_SECRET: string;
@@ -110,6 +115,11 @@ const loadEnvVariables = (): EnvConfig => {
       CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
       API_KEY: process.env.CLOUDINARY_API_KEY!,
       API_SECRET: process.env.CLOUDINARY_API_SECRET!,
+    },
+    ADMIN: {
+      EMAIL: process.env.ADMIN_EMAIL || "tasnimian99@gmail.com",
+      PASSWORD: process.env.ADMIN_PASSWORD || "Admin@123456",
+      NAME: process.env.ADMIN_NAME || "Super Admin",
     },
     // STRIPE: {
     //   SECRET_KEY: process.env.STRIPE_SECRET_KEY!,

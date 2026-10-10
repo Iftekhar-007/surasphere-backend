@@ -13,6 +13,7 @@
     "db-pull": "prisma db pull",
     "generate": "prisma generate",
     "reset": "prisma migrate reset",
+    "seed": "tsx src/app/db/seedAdmin.ts",
     "studio": "prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
