@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, bearer } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { envVars } from "../../config/env";
+import { sendNewUserSignupNotificationToAdmin } from "../utils/emailService";
 
 export const auth = betterAuth({
   baseURL: envVars.BETTER_AUTH_URL,
@@ -56,21 +57,32 @@ export const auth = betterAuth({
         },
         after: async (user) => {
           try {
-            if ((user as any).role === "TEACHER") {
+            const role = (user as any).role;
+            if (role === "TEACHER") {
               await prisma.teacherProfile.upsert({
                 where: { userId: user.id },
                 update: {},
                 create: { userId: user.id },
               });
-            } else if ((user as any).role === "STUDENT") {
+            } else if (role === "STUDENT") {
               await prisma.studentProfile.upsert({
                 where: { userId: user.id },
                 update: {},
                 create: { userId: user.id },
               });
             }
+
+            // Only notify for new regular student/teacher registrations, skip if the admin account itself is seeding
+            if (role === "STUDENT" || role === "TEACHER") {
+              await sendNewUserSignupNotificationToAdmin({
+                name: user.name,
+                email: user.email,
+                role: role,
+                rollNumber: (user as any).rollNumber,
+              });
+            }
           } catch (error) {
-            console.error("Error creating initial profile:", error);
+            console.error("Error in user create hook / notification:", error);
           }
         },
       },
