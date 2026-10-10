@@ -7,7 +7,7 @@ import status from "http-status";
 
 export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode: number = err.statusCode || status.INTERNAL_SERVER_ERROR;
-  let message = err.message || "Something went wrong!";
+  let message = err.message || "An unexpected error occurred. Please try again.";
   let errorSources: any = [];
 
   if (err instanceof ZodError) {
@@ -24,17 +24,55 @@ export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => 
         message: err.message,
       },
     ];
-  } else if (err?.code === "P2002") {
-    statusCode = status.CONFLICT;
-    message = "Duplicate key violation. Record already exists.";
+  } else if (err?.name === "MulterError") {
+    statusCode = status.BAD_REQUEST;
+    if (err.code === "LIMIT_FILE_SIZE") {
+      message = "File is too large. Maximum allowed size is 20MB.";
+    } else if (err.code === "LIMIT_UNEXPECTED_FILE") {
+      message = `Unexpected file field "${err.field || "file"}".`;
+    } else {
+      message = err.message || "File upload error.";
+    }
     errorSources = [
       {
-        path: err.meta?.target || "",
-        message: err.message,
+        path: err.field || "file",
+        message,
+      },
+    ];
+  } else if (err?.code === "P2002") {
+    statusCode = status.CONFLICT;
+    const target = Array.isArray(err.meta?.target)
+      ? err.meta.target.join(", ")
+      : err.meta?.target || "field";
+    message = `A record with this ${target} already exists.`;
+    errorSources = [
+      {
+        path: target,
+        message,
+      },
+    ];
+  } else if (err?.code === "P2025") {
+    statusCode = status.NOT_FOUND;
+    message =
+      (err.meta?.cause as string) ||
+      "The requested record was not found.";
+    errorSources = [
+      {
+        path: "",
+        message,
+      },
+    ];
+  } else if (err?.code === "P2003") {
+    statusCode = status.BAD_REQUEST;
+    message = "Foreign key reference failed. Related record does not exist.";
+    errorSources = [
+      {
+        path: (err.meta?.field_name as string) || "",
+        message,
       },
     ];
   } else if (err instanceof Error) {
-    message = err.message;
+    message = err.message || "Something went wrong!";
     errorSources = [
       {
         path: "",
