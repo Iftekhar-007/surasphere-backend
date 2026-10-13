@@ -1,10 +1,13 @@
 import { prisma } from "../../lib/prisma";
 import AppError from "../../errorhelpers/AppError";
 import status from "http-status";
+import { Role } from "../../../generated/prisma/client";
 import {
   IAssignTeacherPayload,
   IBlockUserPayload,
+  ICreateFieldPayload,
   ICreateSchedulePayload,
+  IUpdateFieldPayload,
   IUpdateUserRolePayload,
   IVerifyStudentPayload,
 } from "./admin.type";

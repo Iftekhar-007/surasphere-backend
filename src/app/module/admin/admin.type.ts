@@ -32,3 +32,22 @@ export interface IUpdateUserRolePayload {
   userId: string;
   role: Role;
 }
+
+export interface ICreateFieldPayload {
+  label: string;
+  fieldName?: string;
+  targetRole: Role;
+  fieldType?: string;
+  placeholder?: string;
+  options?: string[];
+  required?: boolean;
+  order?: number;
+}
+
+export interface IUpdateFieldPayload {
+  label?: string;
+  placeholder?: string;
+  options?: string[];
+  required?: boolean;
+  order?: number;
+}

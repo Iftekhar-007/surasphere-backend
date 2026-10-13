@@ -46,10 +46,35 @@ const updateUserRoleValidationSchema = z.object({
   }),
 });
 
+const createFieldValidationSchema = z.object({
+  body: z.object({
+    label: z.string({ message: "Field label is required" }).min(1, "Field label cannot be empty"),
+    fieldName: z.string().optional(),
+    targetRole: z.nativeEnum(Role, { message: "Target role must be STUDENT or TEACHER" }),
+    fieldType: z.enum(["TEXT", "NUMBER", "DATE", "TEXTAREA", "SELECT"]).optional().default("TEXT"),
+    placeholder: z.string().optional(),
+    options: z.array(z.string()).optional(),
+    required: z.boolean().optional().default(false),
+    order: z.number().optional().default(0),
+  }),
+});
+
+const updateFieldValidationSchema = z.object({
+  body: z.object({
+    label: z.string().min(1).optional(),
+    placeholder: z.string().optional(),
+    options: z.array(z.string()).optional(),
+    required: z.boolean().optional(),
+    order: z.number().optional(),
+  }),
+});
+
 export const AdminValidations = {
   blockUserValidationSchema,
   verifyStudentValidationSchema,
   assignTeacherValidationSchema,
   createScheduleValidationSchema,
   updateUserRoleValidationSchema,
+  createFieldValidationSchema,
+  updateFieldValidationSchema,
 };
