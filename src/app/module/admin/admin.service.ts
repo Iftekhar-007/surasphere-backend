@@ -125,8 +125,8 @@ const getStudentDetailsByIdFromDB = async (studentProfileId: string) => {
     throw new AppError(status.NOT_FOUND, "Student profile not found.");
   }
 
-  // Fetch student's progress, feedbacks, tasks, and schedules
-  const [progressLogs, feedbacks, assignedTasks, schedules] = await Promise.all([
+  // Fetch student's progress, feedbacks, tasks, schedules, and dynamic custom fields
+  const [progressLogs, feedbacks, assignedTasks, schedules, customFieldValues] = await Promise.all([
     prisma.dailyProgress.findMany({
       where: { studentId: student.userId },
       orderBy: { date: "desc" },
@@ -151,6 +151,11 @@ const getStudentDetailsByIdFromDB = async (studentProfileId: string) => {
         teacher: { select: { id: true, name: true, email: true } },
       },
     }),
+    prisma.dynamicFieldValue.findMany({
+      where: { userId: student.userId },
+      include: { field: true },
+      orderBy: { field: { order: "asc" } },
+    }),
   ]);
 
   return {
@@ -159,6 +164,7 @@ const getStudentDetailsByIdFromDB = async (studentProfileId: string) => {
     feedbacks,
     assignedTasks,
     schedules,
+    customFieldValues,
   };
 };
 
@@ -251,7 +257,7 @@ const getTeacherDetailsByIdFromDB = async (teacherProfileId: string) => {
   }
 
   // Fetch reviews and schedules
-  const [reviews, schedules, tasks] = await Promise.all([
+  const [reviews, schedules, tasks, customFieldValues] = await Promise.all([
     prisma.teacherReview.findMany({
       where: { teacherId: teacher.userId },
       include: {
@@ -271,6 +277,11 @@ const getTeacherDetailsByIdFromDB = async (teacherProfileId: string) => {
         _count: { select: { studentTasks: true } },
       },
     }),
+    prisma.dynamicFieldValue.findMany({
+      where: { userId: teacher.userId },
+      include: { field: true },
+      orderBy: { field: { order: "asc" } },
+    }),
   ]);
 
   const avgRating =
@@ -285,6 +296,7 @@ const getTeacherDetailsByIdFromDB = async (teacherProfileId: string) => {
     reviews,
     schedules,
     tasks,
+    customFieldValues,
   };
 };
 
