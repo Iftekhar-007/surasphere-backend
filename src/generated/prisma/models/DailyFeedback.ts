@@ -557,14 +557,6 @@ export type DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput = {
   deleteMany?: Prisma.DailyFeedbackScalarWhereInput | Prisma.DailyFeedbackScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type DailyFeedbackCreateWithoutTeacherInput = {
   id?: string
   date?: Date | string

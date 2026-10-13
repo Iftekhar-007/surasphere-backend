@@ -3,7 +3,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, bearer } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { envVars } from "../../config/env";
-import { sendNewUserSignupNotificationToAdmin } from "../utils/emailService";
+import {
+  sendNewUserSignupNotificationToAdmin,
+  sendWelcomeEmailToUser,
+} from "../utils/emailService";
 
 export const auth = betterAuth({
   baseURL: envVars.BETTER_AUTH_URL,
@@ -72,14 +75,22 @@ export const auth = betterAuth({
               });
             }
 
-            // Only notify for new regular student/teacher registrations, skip if the admin account itself is seeding
+            // Send notifications for new regular student/teacher registrations
             if (role === "STUDENT" || role === "TEACHER") {
-              await sendNewUserSignupNotificationToAdmin({
-                name: user.name,
-                email: user.email,
-                role: role,
-                rollNumber: (user as any).rollNumber,
-              });
+              await Promise.allSettled([
+                sendNewUserSignupNotificationToAdmin({
+                  name: user.name,
+                  email: user.email,
+                  role: role,
+                  rollNumber: (user as any).rollNumber,
+                }),
+                sendWelcomeEmailToUser({
+                  name: user.name,
+                  email: user.email,
+                  role: role,
+                  rollNumber: (user as any).rollNumber,
+                }),
+              ]);
             }
           } catch (error) {
             console.error("Error in user create hook / notification:", error);

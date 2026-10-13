@@ -8,6 +8,7 @@ import {
   IUpdateUserRolePayload,
   IVerifyStudentPayload,
 } from "./admin.type";
+import { sendStudentVerificationStatusEmail } from "../../utils/emailService";
 
 const getDashboardStatsFromDB = async () => {
   const [
@@ -316,6 +317,17 @@ const verifyStudentProfileIntoDB = async (
       assignedTeacher: true,
     },
   });
+
+  if (updatedProfile.user?.email && (payload.status === "VERIFIED" || payload.status === "REJECTED")) {
+    sendStudentVerificationStatusEmail({
+      name: updatedProfile.user.name,
+      email: updatedProfile.user.email,
+      status: payload.status,
+      rejectionReason: payload.rejectionReason,
+    }).catch((err) =>
+      console.error("[Email Notification]: Failed to send verification status email:", err)
+    );
+  }
 
   return updatedProfile;
 };

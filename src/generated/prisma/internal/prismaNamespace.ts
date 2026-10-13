@@ -406,6 +406,8 @@ export const ModelName = {
   Verification: 'Verification',
   StudentProfile: 'StudentProfile',
   TeacherProfile: 'TeacherProfile',
+  DynamicProfileField: 'DynamicProfileField',
+  DynamicFieldValue: 'DynamicFieldValue',
   DailyProgress: 'DailyProgress',
   DailyFeedback: 'DailyFeedback',
   TeacherReview: 'TeacherReview'
@@ -424,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "classSchedule" | "homeTask" | "studentHomeTask" | "user" | "session" | "account" | "verification" | "studentProfile" | "teacherProfile" | "dailyProgress" | "dailyFeedback" | "teacherReview"
+    modelProps: "classSchedule" | "homeTask" | "studentHomeTask" | "user" | "session" | "account" | "verification" | "studentProfile" | "teacherProfile" | "dynamicProfileField" | "dynamicFieldValue" | "dailyProgress" | "dailyFeedback" | "teacherReview"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1094,6 +1096,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DynamicProfileField: {
+      payload: Prisma.$DynamicProfileFieldPayload<ExtArgs>
+      fields: Prisma.DynamicProfileFieldFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DynamicProfileFieldFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DynamicProfileFieldFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        findFirst: {
+          args: Prisma.DynamicProfileFieldFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DynamicProfileFieldFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        findMany: {
+          args: Prisma.DynamicProfileFieldFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>[]
+        }
+        create: {
+          args: Prisma.DynamicProfileFieldCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        createMany: {
+          args: Prisma.DynamicProfileFieldCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DynamicProfileFieldCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>[]
+        }
+        delete: {
+          args: Prisma.DynamicProfileFieldDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        update: {
+          args: Prisma.DynamicProfileFieldUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        deleteMany: {
+          args: Prisma.DynamicProfileFieldDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DynamicProfileFieldUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DynamicProfileFieldUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>[]
+        }
+        upsert: {
+          args: Prisma.DynamicProfileFieldUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicProfileFieldPayload>
+        }
+        aggregate: {
+          args: Prisma.DynamicProfileFieldAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDynamicProfileField>
+        }
+        groupBy: {
+          args: Prisma.DynamicProfileFieldGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DynamicProfileFieldGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DynamicProfileFieldCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DynamicProfileFieldCountAggregateOutputType> | number
+        }
+      }
+    }
+    DynamicFieldValue: {
+      payload: Prisma.$DynamicFieldValuePayload<ExtArgs>
+      fields: Prisma.DynamicFieldValueFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DynamicFieldValueFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DynamicFieldValueFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        findFirst: {
+          args: Prisma.DynamicFieldValueFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DynamicFieldValueFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        findMany: {
+          args: Prisma.DynamicFieldValueFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>[]
+        }
+        create: {
+          args: Prisma.DynamicFieldValueCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        createMany: {
+          args: Prisma.DynamicFieldValueCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DynamicFieldValueCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>[]
+        }
+        delete: {
+          args: Prisma.DynamicFieldValueDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        update: {
+          args: Prisma.DynamicFieldValueUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        deleteMany: {
+          args: Prisma.DynamicFieldValueDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DynamicFieldValueUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DynamicFieldValueUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>[]
+        }
+        upsert: {
+          args: Prisma.DynamicFieldValueUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DynamicFieldValuePayload>
+        }
+        aggregate: {
+          args: Prisma.DynamicFieldValueAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDynamicFieldValue>
+        }
+        groupBy: {
+          args: Prisma.DynamicFieldValueGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DynamicFieldValueGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DynamicFieldValueCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DynamicFieldValueCountAggregateOutputType> | number
+        }
+      }
+    }
     DailyProgress: {
       payload: Prisma.$DailyProgressPayload<ExtArgs>
       fields: Prisma.DailyProgressFieldRefs
@@ -1512,6 +1662,35 @@ export const TeacherProfileScalarFieldEnum = {
 export type TeacherProfileScalarFieldEnum = (typeof TeacherProfileScalarFieldEnum)[keyof typeof TeacherProfileScalarFieldEnum]
 
 
+export const DynamicProfileFieldScalarFieldEnum = {
+  id: 'id',
+  fieldName: 'fieldName',
+  label: 'label',
+  targetRole: 'targetRole',
+  fieldType: 'fieldType',
+  placeholder: 'placeholder',
+  options: 'options',
+  required: 'required',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DynamicProfileFieldScalarFieldEnum = (typeof DynamicProfileFieldScalarFieldEnum)[keyof typeof DynamicProfileFieldScalarFieldEnum]
+
+
+export const DynamicFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  userId: 'userId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DynamicFieldValueScalarFieldEnum = (typeof DynamicFieldValueScalarFieldEnum)[keyof typeof DynamicFieldValueScalarFieldEnum]
+
+
 export const DailyProgressScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -1677,6 +1856,20 @@ export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
  * Reference to a field of type 'VerificationStatus[]'
  */
 export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Role'
+ */
+export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+/**
+ * Reference to a field of type 'Role[]'
+ */
+export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -1853,6 +2046,8 @@ export type GlobalOmitConfig = {
   verification?: Prisma.VerificationOmit
   studentProfile?: Prisma.StudentProfileOmit
   teacherProfile?: Prisma.TeacherProfileOmit
+  dynamicProfileField?: Prisma.DynamicProfileFieldOmit
+  dynamicFieldValue?: Prisma.DynamicFieldValueOmit
   dailyProgress?: Prisma.DailyProgressOmit
   dailyFeedback?: Prisma.DailyFeedbackOmit
   teacherReview?: Prisma.TeacherReviewOmit

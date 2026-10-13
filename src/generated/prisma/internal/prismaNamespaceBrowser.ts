@@ -60,6 +60,8 @@ export const ModelName = {
   Verification: 'Verification',
   StudentProfile: 'StudentProfile',
   TeacherProfile: 'TeacherProfile',
+  DynamicProfileField: 'DynamicProfileField',
+  DynamicFieldValue: 'DynamicFieldValue',
   DailyProgress: 'DailyProgress',
   DailyFeedback: 'DailyFeedback',
   TeacherReview: 'TeacherReview'
@@ -236,6 +238,35 @@ export const TeacherProfileScalarFieldEnum = {
 } as const
 
 export type TeacherProfileScalarFieldEnum = (typeof TeacherProfileScalarFieldEnum)[keyof typeof TeacherProfileScalarFieldEnum]
+
+
+export const DynamicProfileFieldScalarFieldEnum = {
+  id: 'id',
+  fieldName: 'fieldName',
+  label: 'label',
+  targetRole: 'targetRole',
+  fieldType: 'fieldType',
+  placeholder: 'placeholder',
+  options: 'options',
+  required: 'required',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DynamicProfileFieldScalarFieldEnum = (typeof DynamicProfileFieldScalarFieldEnum)[keyof typeof DynamicProfileFieldScalarFieldEnum]
+
+
+export const DynamicFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  userId: 'userId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DynamicFieldValueScalarFieldEnum = (typeof DynamicFieldValueScalarFieldEnum)[keyof typeof DynamicFieldValueScalarFieldEnum]
 
 
 export const DailyProgressScalarFieldEnum = {

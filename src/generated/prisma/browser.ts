@@ -63,6 +63,16 @@ export type StudentProfile = Prisma.StudentProfileModel
  */
 export type TeacherProfile = Prisma.TeacherProfileModel
 /**
+ * Model DynamicProfileField
+ * 
+ */
+export type DynamicProfileField = Prisma.DynamicProfileFieldModel
+/**
+ * Model DynamicFieldValue
+ * 
+ */
+export type DynamicFieldValue = Prisma.DynamicFieldValueModel
+/**
  * Model DailyProgress
  * 
  */

@@ -39,6 +39,9 @@ model User {
   givenReviews          TeacherReview[]   @relation("StudentTeacherReview")
   receivedReviews       TeacherReview[]   @relation("TeacherReceivedReview")
 
+  // Dynamic Profile Field Values
+  dynamicFieldValues    DynamicFieldValue[]
+
   @@index([rollNumber])
   @@index([role])
   @@index([status])

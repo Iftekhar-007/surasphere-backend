@@ -267,6 +267,7 @@ export type UserWhereInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackListRelationFilter
   givenReviews?: Prisma.TeacherReviewListRelationFilter
   receivedReviews?: Prisma.TeacherReviewListRelationFilter
+  dynamicFieldValues?: Prisma.DynamicFieldValueListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -297,6 +298,7 @@ export type UserOrderByWithRelationInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackOrderByRelationAggregateInput
   givenReviews?: Prisma.TeacherReviewOrderByRelationAggregateInput
   receivedReviews?: Prisma.TeacherReviewOrderByRelationAggregateInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -330,6 +332,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   receivedFeedbacks?: Prisma.DailyFeedbackListRelationFilter
   givenReviews?: Prisma.TeacherReviewListRelationFilter
   receivedReviews?: Prisma.TeacherReviewListRelationFilter
+  dynamicFieldValues?: Prisma.DynamicFieldValueListRelationFilter
 }, "id" | "email" | "rollNumber">
 
 export type UserOrderByWithAggregationInput = {
@@ -400,6 +403,7 @@ export type UserCreateInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -430,6 +434,7 @@ export type UserUncheckedCreateInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -460,6 +465,7 @@ export type UserUpdateInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -490,6 +496,7 @@ export type UserUncheckedUpdateInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -722,6 +729,20 @@ export type UserUpdateOneRequiredWithoutTeacherProfileNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTeacherProfileInput, Prisma.UserUpdateWithoutTeacherProfileInput>, Prisma.UserUncheckedUpdateWithoutTeacherProfileInput>
 }
 
+export type UserCreateNestedOneWithoutDynamicFieldValuesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedCreateWithoutDynamicFieldValuesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDynamicFieldValuesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDynamicFieldValuesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedCreateWithoutDynamicFieldValuesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDynamicFieldValuesInput
+  upsert?: Prisma.UserUpsertWithoutDynamicFieldValuesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDynamicFieldValuesInput, Prisma.UserUpdateWithoutDynamicFieldValuesInput>, Prisma.UserUncheckedUpdateWithoutDynamicFieldValuesInput>
+}
+
 export type UserCreateNestedOneWithoutDailyProgressInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutDailyProgressInput, Prisma.UserUncheckedCreateWithoutDailyProgressInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutDailyProgressInput
@@ -819,6 +840,7 @@ export type UserCreateWithoutTeacherSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTeacherSchedulesInput = {
@@ -848,6 +870,7 @@ export type UserUncheckedCreateWithoutTeacherSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeacherSchedulesInput = {
@@ -882,6 +905,7 @@ export type UserCreateWithoutStudentSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentSchedulesInput = {
@@ -911,6 +935,7 @@ export type UserUncheckedCreateWithoutStudentSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentSchedulesInput = {
@@ -956,6 +981,7 @@ export type UserUpdateWithoutTeacherSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeacherSchedulesInput = {
@@ -985,6 +1011,7 @@ export type UserUncheckedUpdateWithoutTeacherSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutStudentSchedulesInput = {
@@ -1025,6 +1052,7 @@ export type UserUpdateWithoutStudentSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentSchedulesInput = {
@@ -1054,6 +1082,7 @@ export type UserUncheckedUpdateWithoutStudentSchedulesInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedTasksInput = {
@@ -1083,6 +1112,7 @@ export type UserCreateWithoutCreatedTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTasksInput = {
@@ -1112,6 +1142,7 @@ export type UserUncheckedCreateWithoutCreatedTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTasksInput = {
@@ -1157,6 +1188,7 @@ export type UserUpdateWithoutCreatedTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTasksInput = {
@@ -1186,6 +1218,7 @@ export type UserUncheckedUpdateWithoutCreatedTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudentTasksInput = {
@@ -1215,6 +1248,7 @@ export type UserCreateWithoutStudentTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentTasksInput = {
@@ -1244,6 +1278,7 @@ export type UserUncheckedCreateWithoutStudentTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentTasksInput = {
@@ -1289,6 +1324,7 @@ export type UserUpdateWithoutStudentTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentTasksInput = {
@@ -1318,6 +1354,7 @@ export type UserUncheckedUpdateWithoutStudentTasksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1347,6 +1384,7 @@ export type UserCreateWithoutSessionsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1376,6 +1414,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1421,6 +1460,7 @@ export type UserUpdateWithoutSessionsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1450,6 +1490,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1479,6 +1520,7 @@ export type UserCreateWithoutAccountsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1508,6 +1550,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1553,6 +1596,7 @@ export type UserUpdateWithoutAccountsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1582,6 +1626,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudentProfileInput = {
@@ -1611,6 +1656,7 @@ export type UserCreateWithoutStudentProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentProfileInput = {
@@ -1640,6 +1686,7 @@ export type UserUncheckedCreateWithoutStudentProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentProfileInput = {
@@ -1685,6 +1732,7 @@ export type UserUpdateWithoutStudentProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentProfileInput = {
@@ -1714,6 +1762,7 @@ export type UserUncheckedUpdateWithoutStudentProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTeacherProfileInput = {
@@ -1743,6 +1792,7 @@ export type UserCreateWithoutTeacherProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTeacherProfileInput = {
@@ -1772,6 +1822,7 @@ export type UserUncheckedCreateWithoutTeacherProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeacherProfileInput = {
@@ -1817,6 +1868,7 @@ export type UserUpdateWithoutTeacherProfileInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeacherProfileInput = {
@@ -1837,6 +1889,143 @@ export type UserUncheckedUpdateWithoutTeacherProfileInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   studentProfile?: Prisma.StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+  teacherSchedules?: Prisma.ClassScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+  studentSchedules?: Prisma.ClassScheduleUncheckedUpdateManyWithoutStudentNestedInput
+  createdTasks?: Prisma.HomeTaskUncheckedUpdateManyWithoutTeacherNestedInput
+  studentTasks?: Prisma.StudentHomeTaskUncheckedUpdateManyWithoutStudentNestedInput
+  dailyProgress?: Prisma.DailyProgressUncheckedUpdateManyWithoutStudentNestedInput
+  givenFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutTeacherNestedInput
+  receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
+  givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
+  receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDynamicFieldValuesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  rollNumber?: string | null
+  role?: string | null
+  requestedRole?: string | null
+  status?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  studentProfile?: Prisma.StudentProfileCreateNestedOneWithoutUserInput
+  teacherProfile?: Prisma.TeacherProfileCreateNestedOneWithoutUserInput
+  teacherSchedules?: Prisma.ClassScheduleCreateNestedManyWithoutTeacherInput
+  studentSchedules?: Prisma.ClassScheduleCreateNestedManyWithoutStudentInput
+  createdTasks?: Prisma.HomeTaskCreateNestedManyWithoutTeacherInput
+  studentTasks?: Prisma.StudentHomeTaskCreateNestedManyWithoutStudentInput
+  dailyProgress?: Prisma.DailyProgressCreateNestedManyWithoutStudentInput
+  givenFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutTeacherInput
+  receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
+  givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
+  receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+}
+
+export type UserUncheckedCreateWithoutDynamicFieldValuesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  rollNumber?: string | null
+  role?: string | null
+  requestedRole?: string | null
+  status?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  studentProfile?: Prisma.StudentProfileUncheckedCreateNestedOneWithoutUserInput
+  teacherProfile?: Prisma.TeacherProfileUncheckedCreateNestedOneWithoutUserInput
+  teacherSchedules?: Prisma.ClassScheduleUncheckedCreateNestedManyWithoutTeacherInput
+  studentSchedules?: Prisma.ClassScheduleUncheckedCreateNestedManyWithoutStudentInput
+  createdTasks?: Prisma.HomeTaskUncheckedCreateNestedManyWithoutTeacherInput
+  studentTasks?: Prisma.StudentHomeTaskUncheckedCreateNestedManyWithoutStudentInput
+  dailyProgress?: Prisma.DailyProgressUncheckedCreateNestedManyWithoutStudentInput
+  givenFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutTeacherInput
+  receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
+  givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
+  receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+}
+
+export type UserCreateOrConnectWithoutDynamicFieldValuesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedCreateWithoutDynamicFieldValuesInput>
+}
+
+export type UserUpsertWithoutDynamicFieldValuesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedUpdateWithoutDynamicFieldValuesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedCreateWithoutDynamicFieldValuesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDynamicFieldValuesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDynamicFieldValuesInput, Prisma.UserUncheckedUpdateWithoutDynamicFieldValuesInput>
+}
+
+export type UserUpdateWithoutDynamicFieldValuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rollNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  studentProfile?: Prisma.StudentProfileUpdateOneWithoutUserNestedInput
+  teacherProfile?: Prisma.TeacherProfileUpdateOneWithoutUserNestedInput
+  teacherSchedules?: Prisma.ClassScheduleUpdateManyWithoutTeacherNestedInput
+  studentSchedules?: Prisma.ClassScheduleUpdateManyWithoutStudentNestedInput
+  createdTasks?: Prisma.HomeTaskUpdateManyWithoutTeacherNestedInput
+  studentTasks?: Prisma.StudentHomeTaskUpdateManyWithoutStudentNestedInput
+  dailyProgress?: Prisma.DailyProgressUpdateManyWithoutStudentNestedInput
+  givenFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutTeacherNestedInput
+  receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
+  givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
+  receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDynamicFieldValuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rollNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  studentProfile?: Prisma.StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+  teacherProfile?: Prisma.TeacherProfileUncheckedUpdateOneWithoutUserNestedInput
   teacherSchedules?: Prisma.ClassScheduleUncheckedUpdateManyWithoutTeacherNestedInput
   studentSchedules?: Prisma.ClassScheduleUncheckedUpdateManyWithoutStudentNestedInput
   createdTasks?: Prisma.HomeTaskUncheckedUpdateManyWithoutTeacherNestedInput
@@ -1875,6 +2064,7 @@ export type UserCreateWithoutDailyProgressInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDailyProgressInput = {
@@ -1904,6 +2094,7 @@ export type UserUncheckedCreateWithoutDailyProgressInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDailyProgressInput = {
@@ -1949,6 +2140,7 @@ export type UserUpdateWithoutDailyProgressInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDailyProgressInput = {
@@ -1978,6 +2170,7 @@ export type UserUncheckedUpdateWithoutDailyProgressInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGivenFeedbacksInput = {
@@ -2007,6 +2200,7 @@ export type UserCreateWithoutGivenFeedbacksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGivenFeedbacksInput = {
@@ -2036,6 +2230,7 @@ export type UserUncheckedCreateWithoutGivenFeedbacksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGivenFeedbacksInput = {
@@ -2070,6 +2265,7 @@ export type UserCreateWithoutReceivedFeedbacksInput = {
   givenFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutTeacherInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedFeedbacksInput = {
@@ -2099,6 +2295,7 @@ export type UserUncheckedCreateWithoutReceivedFeedbacksInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutTeacherInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedFeedbacksInput = {
@@ -2144,6 +2341,7 @@ export type UserUpdateWithoutGivenFeedbacksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGivenFeedbacksInput = {
@@ -2173,6 +2371,7 @@ export type UserUncheckedUpdateWithoutGivenFeedbacksInput = {
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReceivedFeedbacksInput = {
@@ -2213,6 +2412,7 @@ export type UserUpdateWithoutReceivedFeedbacksInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutTeacherNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedFeedbacksInput = {
@@ -2242,6 +2442,7 @@ export type UserUncheckedUpdateWithoutReceivedFeedbacksInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutTeacherNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGivenReviewsInput = {
@@ -2271,6 +2472,7 @@ export type UserCreateWithoutGivenReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutTeacherInput
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGivenReviewsInput = {
@@ -2300,6 +2502,7 @@ export type UserUncheckedCreateWithoutGivenReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutTeacherInput
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   receivedReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutTeacherInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGivenReviewsInput = {
@@ -2334,6 +2537,7 @@ export type UserCreateWithoutReceivedReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutTeacherInput
   receivedFeedbacks?: Prisma.DailyFeedbackCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewCreateNestedManyWithoutStudentInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedReviewsInput = {
@@ -2363,6 +2567,7 @@ export type UserUncheckedCreateWithoutReceivedReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutTeacherInput
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedCreateNestedManyWithoutStudentInput
   givenReviews?: Prisma.TeacherReviewUncheckedCreateNestedManyWithoutStudentInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedReviewsInput = {
@@ -2408,6 +2613,7 @@ export type UserUpdateWithoutGivenReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutTeacherNestedInput
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGivenReviewsInput = {
@@ -2437,6 +2643,7 @@ export type UserUncheckedUpdateWithoutGivenReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutTeacherNestedInput
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   receivedReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutTeacherNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReceivedReviewsInput = {
@@ -2477,6 +2684,7 @@ export type UserUpdateWithoutReceivedReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutTeacherNestedInput
   receivedFeedbacks?: Prisma.DailyFeedbackUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUpdateManyWithoutStudentNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedReviewsInput = {
@@ -2506,6 +2714,7 @@ export type UserUncheckedUpdateWithoutReceivedReviewsInput = {
   givenFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutTeacherNestedInput
   receivedFeedbacks?: Prisma.DailyFeedbackUncheckedUpdateManyWithoutStudentNestedInput
   givenReviews?: Prisma.TeacherReviewUncheckedUpdateManyWithoutStudentNestedInput
+  dynamicFieldValues?: Prisma.DynamicFieldValueUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2525,6 +2734,7 @@ export type UserCountOutputType = {
   receivedFeedbacks: number
   givenReviews: number
   receivedReviews: number
+  dynamicFieldValues: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2539,6 +2749,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   receivedFeedbacks?: boolean | UserCountOutputTypeCountReceivedFeedbacksArgs
   givenReviews?: boolean | UserCountOutputTypeCountGivenReviewsArgs
   receivedReviews?: boolean | UserCountOutputTypeCountReceivedReviewsArgs
+  dynamicFieldValues?: boolean | UserCountOutputTypeCountDynamicFieldValuesArgs
 }
 
 /**
@@ -2628,6 +2839,13 @@ export type UserCountOutputTypeCountReceivedReviewsArgs<ExtArgs extends runtime.
   where?: Prisma.TeacherReviewWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDynamicFieldValuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DynamicFieldValueWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2657,6 +2875,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   receivedFeedbacks?: boolean | Prisma.User$receivedFeedbacksArgs<ExtArgs>
   givenReviews?: boolean | Prisma.User$givenReviewsArgs<ExtArgs>
   receivedReviews?: boolean | Prisma.User$receivedReviewsArgs<ExtArgs>
+  dynamicFieldValues?: boolean | Prisma.User$dynamicFieldValuesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2726,6 +2945,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   receivedFeedbacks?: boolean | Prisma.User$receivedFeedbacksArgs<ExtArgs>
   givenReviews?: boolean | Prisma.User$givenReviewsArgs<ExtArgs>
   receivedReviews?: boolean | Prisma.User$receivedReviewsArgs<ExtArgs>
+  dynamicFieldValues?: boolean | Prisma.User$dynamicFieldValuesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2747,6 +2967,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     receivedFeedbacks: Prisma.$DailyFeedbackPayload<ExtArgs>[]
     givenReviews: Prisma.$TeacherReviewPayload<ExtArgs>[]
     receivedReviews: Prisma.$TeacherReviewPayload<ExtArgs>[]
+    dynamicFieldValues: Prisma.$DynamicFieldValuePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3170,6 +3391,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   receivedFeedbacks<T extends Prisma.User$receivedFeedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedFeedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   givenReviews<T extends Prisma.User$givenReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$givenReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   receivedReviews<T extends Prisma.User$receivedReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dynamicFieldValues<T extends Prisma.User$dynamicFieldValuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dynamicFieldValuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DynamicFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3905,6 +4127,30 @@ export type User$receivedReviewsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.TeacherReviewScalarFieldEnum | Prisma.TeacherReviewScalarFieldEnum[]
+}
+
+/**
+ * User.dynamicFieldValues
+ */
+export type User$dynamicFieldValuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DynamicFieldValue
+   */
+  select?: Prisma.DynamicFieldValueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DynamicFieldValue
+   */
+  omit?: Prisma.DynamicFieldValueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DynamicFieldValueInclude<ExtArgs> | null
+  where?: Prisma.DynamicFieldValueWhereInput
+  orderBy?: Prisma.DynamicFieldValueOrderByWithRelationInput | Prisma.DynamicFieldValueOrderByWithRelationInput[]
+  cursor?: Prisma.DynamicFieldValueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DynamicFieldValueScalarFieldEnum | Prisma.DynamicFieldValueScalarFieldEnum[]
 }
 
 /**

@@ -46,3 +46,39 @@ model TeacherProfile {
   @@index([userId])
   @@map("teacher_profile")
 }
+
+model DynamicProfileField {
+  id          String              @id @default(cuid())
+  fieldName   String
+  label       String
+  targetRole  Role
+  fieldType   String              @default("TEXT")
+  placeholder String?
+  options     String[]            @default([])
+  required    Boolean             @default(false)
+  order       Int                 @default(0)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  values      DynamicFieldValue[]
+
+  @@unique([fieldName, targetRole])
+  @@index([targetRole])
+  @@map("dynamic_profile_field")
+}
+
+model DynamicFieldValue {
+  id        String              @id @default(cuid())
+  fieldId   String
+  field     DynamicProfileField @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  value     String              @default("")
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  @@unique([fieldId, userId])
+  @@index([userId])
+  @@index([fieldId])
+  @@map("dynamic_field_value")
+}
