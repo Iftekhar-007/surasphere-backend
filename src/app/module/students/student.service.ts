@@ -9,6 +9,48 @@ import {
 } from "./student.type";
 import { uploadToCloudinary } from "../../utils/cloudinaryUpload";
 
+const saveUserDynamicFields = async (
+  userId: string,
+  valuesMap?: Record<string, any>
+) => {
+  if (!valuesMap || typeof valuesMap !== "object") return;
+
+  const fields = await prisma.dynamicProfileField.findMany({
+    where: { targetRole: "STUDENT" },
+  });
+
+  const upsertPromises = [];
+
+  for (const field of fields) {
+    const val = valuesMap[field.id] !== undefined ? valuesMap[field.id] : valuesMap[field.fieldName];
+    if (val !== undefined && val !== null) {
+      const stringVal = String(val).trim();
+      upsertPromises.push(
+        prisma.dynamicFieldValue.upsert({
+          where: {
+            fieldId_userId: {
+              fieldId: field.id,
+              userId,
+            },
+          },
+          update: {
+            value: stringVal,
+          },
+          create: {
+            fieldId: field.id,
+            userId,
+            value: stringVal,
+          },
+        })
+      );
+    }
+  }
+
+  if (upsertPromises.length > 0) {
+    await Promise.all(upsertPromises);
+  }
+};
+
 const createOrUpdateProfileIntoDB = async (
   userId: string,
   payload: ICreateStudentProfilePayload | IUpdateStudentProfilePayload,
@@ -20,8 +62,15 @@ const createOrUpdateProfileIntoDB = async (
     imageUrl = uploadResult.secure_url;
   }
 
-  // Update user name/image if provided
-  const { name, ...profileData } = payload as IUpdateStudentProfilePayload;
+  // Separate dynamicFieldValues, name, and profileData
+  const { name, dynamicFieldValues, ...rawProfileData } = payload as IUpdateStudentProfilePayload;
+  const profileData: Record<string, any> = { ...rawProfileData };
+
+  // If dynamicFieldValues has address and profileData.address is not provided, sync it
+  if (dynamicFieldValues?.address && !profileData.address) {
+    profileData.address = String(dynamicFieldValues.address).trim();
+  }
+
   if (name || imageUrl) {
     await prisma.user.update({
       where: { id: userId },
@@ -32,12 +81,18 @@ const createOrUpdateProfileIntoDB = async (
     });
   }
 
+  if (dynamicFieldValues) {
+    await saveUserDynamicFields(userId, dynamicFieldValues);
+  }
+
   const existingProfile = await prisma.studentProfile.findUnique({
     where: { userId },
   });
 
+  let savedProfile;
+
   if (existingProfile) {
-    const updatedProfile = await prisma.studentProfile.update({
+    savedProfile = await prisma.studentProfile.update({
       where: { userId },
       data: {
         ...profileData,
@@ -68,77 +123,96 @@ const createOrUpdateProfileIntoDB = async (
         },
       },
     });
-    return updatedProfile;
-  }
-
-  const newProfile = await prisma.studentProfile.create({
-    data: {
-      userId,
-      ...profileData,
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          rollNumber: true,
-          role: true,
-          status: true,
-        },
+  } else {
+    savedProfile = await prisma.studentProfile.create({
+      data: {
+        userId,
+        ...profileData,
       },
-      assignedTeacher: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            rollNumber: true,
+            role: true,
+            status: true,
+          },
+        },
+        assignedTeacher: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
+  }
 
-  return newProfile;
+  return getMyProfileFromDB(userId);
 };
 
 const getMyProfileFromDB = async (userId: string) => {
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          rollNumber: true,
-          role: true,
-          status: true,
-          createdAt: true,
+  const [profile, dynamicFields, savedValues] = await Promise.all([
+    prisma.studentProfile.findUnique({
+      where: { userId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            rollNumber: true,
+            role: true,
+            status: true,
+            createdAt: true,
+          },
         },
-      },
-      assignedTeacher: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
+        assignedTeacher: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
             },
           },
         },
       },
-    },
+    }),
+    prisma.dynamicProfileField.findMany({
+      where: { targetRole: "STUDENT" },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    }),
+    prisma.dynamicFieldValue.findMany({
+      where: { userId },
+      include: { field: true },
+    }),
+  ]);
+
+  const dynamicValues: Record<string, string> = {};
+  savedValues.forEach((sv) => {
+    dynamicValues[sv.field.id] = sv.value;
+    dynamicValues[sv.field.fieldName] = sv.value;
   });
 
+  // If student profile has legacy address and dynamic value not set, fallback
+  if (profile?.address && (!dynamicValues["address"] || dynamicValues["address"] === "")) {
+    dynamicValues["address"] = profile.address;
+  }
+
   if (!profile) {
-    // If no profile record exists yet, return base user info
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -152,10 +226,15 @@ const getMyProfileFromDB = async (userId: string) => {
         createdAt: true,
       },
     });
-    return { user, profile: null };
+    return { user, profile: null, dynamicFields, dynamicValues, savedValues };
   }
 
-  return profile;
+  return {
+    ...profile,
+    dynamicFields,
+    dynamicValues,
+    savedValues,
+  };
 };
 
 const getMyScheduleFromDB = async (userId: string) => {

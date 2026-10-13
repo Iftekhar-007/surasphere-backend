@@ -52,4 +52,21 @@ router.post(
 
 router.get("/schedules", AdminControllers.getAllSchedules);
 
+// Dynamic Profile Fields Management (Add/Delete/View/Update fields for Students and Teachers)
+router.get("/fields", AdminControllers.getAllFields);
+
+router.post(
+  "/fields",
+  validateRequest(AdminValidations.createFieldValidationSchema),
+  AdminControllers.createField
+);
+
+router.patch(
+  "/fields/:fieldId",
+  validateRequest(AdminValidations.updateFieldValidationSchema),
+  AdminControllers.updateField
+);
+
+router.delete("/fields/:fieldId", AdminControllers.deleteField);
+
 export const AdminRoutes = router;

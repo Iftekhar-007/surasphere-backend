@@ -498,6 +498,169 @@ const getAllSchedulesFromDB = async () => {
   return schedules;
 };
 
+const generateFieldSlug = (label: string): string => {
+  return label
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+};
+
+const createFieldInDB = async (payload: ICreateFieldPayload) => {
+  const fieldName = payload.fieldName?.trim()
+    ? generateFieldSlug(payload.fieldName)
+    : generateFieldSlug(payload.label);
+
+  if (!fieldName) {
+    throw new AppError(status.BAD_REQUEST, "Invalid field name or label.");
+  }
+
+  // Check if field already exists for this role
+  const existingField = await prisma.dynamicProfileField.findUnique({
+    where: {
+      fieldName_targetRole: {
+        fieldName,
+        targetRole: payload.targetRole,
+      },
+    },
+  });
+
+  if (existingField) {
+    throw new AppError(
+      status.CONFLICT,
+      `A field with name "${fieldName}" already exists for ${payload.targetRole.toLowerCase()}s.`
+    );
+  }
+
+  // Get current max order
+  const highestOrder = await prisma.dynamicProfileField.findFirst({
+    where: { targetRole: payload.targetRole },
+    orderBy: { order: "desc" },
+    select: { order: true },
+  });
+
+  const newField = await prisma.dynamicProfileField.create({
+    data: {
+      label: payload.label.trim(),
+      fieldName,
+      targetRole: payload.targetRole,
+      fieldType: payload.fieldType || "TEXT",
+      placeholder: payload.placeholder?.trim() || null,
+      options: payload.options || [],
+      required: payload.required ?? false,
+      order: payload.order ?? ((highestOrder?.order ?? -1) + 1),
+    },
+  });
+
+  return newField;
+};
+
+const getAllFieldsFromDB = async (targetRole?: Role) => {
+  // Auto-seed default initial fields if completely empty (e.g. Address)
+  const count = await prisma.dynamicProfileField.count();
+  if (count === 0) {
+    await prisma.dynamicProfileField.createMany({
+      data: [
+        {
+          fieldName: "address",
+          label: "Address",
+          targetRole: Role.STUDENT,
+          fieldType: "TEXT",
+          placeholder: "e.g. House 12, Road 4, Sector 7, Uttara",
+          required: false,
+          order: 0,
+        },
+        {
+          fieldName: "emergency_phone",
+          label: "Emergency Contact",
+          targetRole: Role.STUDENT,
+          fieldType: "TEXT",
+          placeholder: "e.g. +880 1712-345678",
+          required: false,
+          order: 1,
+        },
+        {
+          fieldName: "address",
+          label: "Address",
+          targetRole: Role.TEACHER,
+          fieldType: "TEXT",
+          placeholder: "e.g. 45 Green Road, Dhaka",
+          required: false,
+          order: 0,
+        },
+        {
+          fieldName: "education_degree",
+          label: "Highest Islamic Qualification",
+          targetRole: Role.TEACHER,
+          fieldType: "TEXT",
+          placeholder: "e.g. Masters in Hadith / Dawrah Hadith",
+          required: false,
+          order: 1,
+        },
+      ],
+      skipDuplicates: true,
+    });
+  }
+
+  const fields = await prisma.dynamicProfileField.findMany({
+    where: {
+      ...(targetRole && { targetRole }),
+    },
+    include: {
+      _count: {
+        select: { values: true },
+      },
+    },
+    orderBy: [
+      { targetRole: "asc" },
+      { order: "asc" },
+      { createdAt: "asc" },
+    ],
+  });
+
+  return fields;
+};
+
+const deleteFieldFromDB = async (fieldId: string) => {
+  const field = await prisma.dynamicProfileField.findUnique({
+    where: { id: fieldId },
+  });
+
+  if (!field) {
+    throw new AppError(status.NOT_FOUND, "Profile field not found.");
+  }
+
+  // Deleting the dynamic field cascades to delete all its values
+  await prisma.dynamicProfileField.delete({
+    where: { id: fieldId },
+  });
+
+  return { message: `Field "${field.label}" deleted successfully.` };
+};
+
+const updateFieldInDB = async (fieldId: string, payload: IUpdateFieldPayload) => {
+  const field = await prisma.dynamicProfileField.findUnique({
+    where: { id: fieldId },
+  });
+
+  if (!field) {
+    throw new AppError(status.NOT_FOUND, "Profile field not found.");
+  }
+
+  const updatedField = await prisma.dynamicProfileField.update({
+    where: { id: fieldId },
+    data: {
+      ...(payload.label && { label: payload.label.trim() }),
+      ...(payload.placeholder !== undefined && { placeholder: payload.placeholder }),
+      ...(payload.options && { options: payload.options }),
+      ...(payload.required !== undefined && { required: payload.required }),
+      ...(payload.order !== undefined && { order: payload.order }),
+    },
+  });
+
+  return updatedField;
+};
+
 export const AdminServices = {
   getDashboardStatsFromDB,
   getAllStudentsFromDB,
@@ -510,4 +673,8 @@ export const AdminServices = {
   updateUserRoleIntoDB,
   createScheduleIntoDB,
   getAllSchedulesFromDB,
+  createFieldInDB,
+  getAllFieldsFromDB,
+  deleteFieldFromDB,
+  updateFieldInDB,
 };

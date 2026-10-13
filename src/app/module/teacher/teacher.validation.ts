@@ -32,6 +32,7 @@ const updateTeacherProfileValidationSchema = z.object({
     experienceYears: optionalNumber(0, 100),
     specialization: optionalString(),
     maxStudents: optionalNumber(1, 500),
+    dynamicFieldValues: z.record(z.string(), z.any()).optional(),
   }),
 });
 

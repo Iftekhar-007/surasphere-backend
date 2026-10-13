@@ -36,6 +36,7 @@ const createStudentProfileValidationSchema = z.object({
     currentAyah: optionalNumber(1, 300),
     targetSurah: optionalString(),
     learningLevel: optionalString(),
+    dynamicFieldValues: z.record(z.string(), z.any()).optional(),
   }),
 });
 
@@ -53,6 +54,7 @@ const updateStudentProfileValidationSchema = z.object({
     currentAyah: optionalNumber(1, 300),
     targetSurah: optionalString(),
     learningLevel: optionalString(),
+    dynamicFieldValues: z.record(z.string(), z.any()).optional(),
   }),
 });
 

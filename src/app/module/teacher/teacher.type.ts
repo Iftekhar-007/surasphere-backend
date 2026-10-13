@@ -8,6 +8,7 @@ export interface ICreateOrUpdateTeacherProfilePayload {
   experienceYears?: number;
   specialization?: string;
   maxStudents?: number;
+  dynamicFieldValues?: Record<string, any>;
 }
 
 export interface ICreateHomeTaskPayload {

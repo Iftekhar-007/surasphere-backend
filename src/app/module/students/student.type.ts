@@ -12,6 +12,7 @@ export interface ICreateStudentProfilePayload {
   currentAyah?: number;
   targetSurah?: string;
   learningLevel?: string;
+  dynamicFieldValues?: Record<string, any>;
 }
 
 export interface IUpdateStudentProfilePayload {
@@ -28,6 +29,7 @@ export interface IUpdateStudentProfilePayload {
   currentAyah?: number;
   targetSurah?: string;
   learningLevel?: string;
+  dynamicFieldValues?: Record<string, any>;
 }
 
 export interface ISubmitTaskPayload {

@@ -138,6 +138,55 @@ const getAllSchedules = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createField = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.body;
+  const result = await AdminServices.createFieldInDB(payload);
+
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Dynamic profile field created successfully.",
+    data: result,
+  });
+});
+
+const getAllFields = catchAsync(async (req: Request, res: Response) => {
+  const targetRole = req.query.targetRole as any;
+  const result = await AdminServices.getAllFieldsFromDB(targetRole);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Profile fields retrieved successfully.",
+    data: result,
+  });
+});
+
+const deleteField = catchAsync(async (req: Request, res: Response) => {
+  const fieldId = req.params.fieldId as string;
+  const result = await AdminServices.deleteFieldFromDB(fieldId);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: result.message,
+    data: result,
+  });
+});
+
+const updateField = catchAsync(async (req: Request, res: Response) => {
+  const fieldId = req.params.fieldId as string;
+  const payload = req.body;
+  const result = await AdminServices.updateFieldInDB(fieldId, payload);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Profile field updated successfully.",
+    data: result,
+  });
+});
+
 export const AdminControllers = {
   getDashboardStats,
   getAllStudents,
@@ -150,4 +199,8 @@ export const AdminControllers = {
   updateUserRole,
   createSchedule,
   getAllSchedules,
+  createField,
+  getAllFields,
+  deleteField,
+  updateField,
 };

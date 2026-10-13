@@ -9,28 +9,86 @@ import {
 } from "./teacher.type";
 import { uploadToCloudinary } from "../../utils/cloudinaryUpload";
 
+const saveTeacherDynamicFields = async (
+  userId: string,
+  valuesMap?: Record<string, any>
+) => {
+  if (!valuesMap || typeof valuesMap !== "object") return;
+
+  const fields = await prisma.dynamicProfileField.findMany({
+    where: { targetRole: "TEACHER" },
+  });
+
+  const upsertPromises = [];
+
+  for (const field of fields) {
+    const val = valuesMap[field.id] !== undefined ? valuesMap[field.id] : valuesMap[field.fieldName];
+    if (val !== undefined && val !== null) {
+      const stringVal = String(val).trim();
+      upsertPromises.push(
+        prisma.dynamicFieldValue.upsert({
+          where: {
+            fieldId_userId: {
+              fieldId: field.id,
+              userId,
+            },
+          },
+          update: {
+            value: stringVal,
+          },
+          create: {
+            fieldId: field.id,
+            userId,
+            value: stringVal,
+          },
+        })
+      );
+    }
+  }
+
+  if (upsertPromises.length > 0) {
+    await Promise.all(upsertPromises);
+  }
+};
+
 const getMyProfileFromDB = async (userId: string) => {
-  const teacherProfile = await prisma.teacherProfile.findUnique({
-    where: { userId },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          rollNumber: true,
-          role: true,
-          status: true,
-          createdAt: true,
+  const [teacherProfile, dynamicFields, savedValues] = await Promise.all([
+    prisma.teacherProfile.findUnique({
+      where: { userId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            rollNumber: true,
+            role: true,
+            status: true,
+            createdAt: true,
+          },
+        },
+        _count: {
+          select: {
+            students: true,
+          },
         },
       },
-      _count: {
-        select: {
-          students: true,
-        },
-      },
-    },
+    }),
+    prisma.dynamicProfileField.findMany({
+      where: { targetRole: "TEACHER" },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    }),
+    prisma.dynamicFieldValue.findMany({
+      where: { userId },
+      include: { field: true },
+    }),
+  ]);
+
+  const dynamicValues: Record<string, string> = {};
+  savedValues.forEach((sv) => {
+    dynamicValues[sv.field.id] = sv.value;
+    dynamicValues[sv.field.fieldName] = sv.value;
   });
 
   if (!teacherProfile) {
@@ -47,12 +105,15 @@ const getMyProfileFromDB = async (userId: string) => {
         createdAt: true,
       },
     });
-    return { user, profile: null, studentCount: 0 };
+    return { user, profile: null, studentCount: 0, dynamicFields, dynamicValues, savedValues };
   }
 
   return {
     ...teacherProfile,
     studentCount: teacherProfile._count.students,
+    dynamicFields,
+    dynamicValues,
+    savedValues,
   };
 };
 
@@ -67,7 +128,7 @@ const updateProfileIntoDB = async (
     imageUrl = uploadResult.secure_url;
   }
 
-  const { name, ...profileData } = payload;
+  const { name, dynamicFieldValues, ...profileData } = payload;
   if (name || imageUrl) {
     await prisma.user.update({
       where: { id: userId },
@@ -78,7 +139,11 @@ const updateProfileIntoDB = async (
     });
   }
 
-  const updatedProfile = await prisma.teacherProfile.upsert({
+  if (dynamicFieldValues) {
+    await saveTeacherDynamicFields(userId, dynamicFieldValues);
+  }
+
+  await prisma.teacherProfile.upsert({
     where: { userId },
     update: {
       ...profileData,
@@ -102,7 +167,7 @@ const updateProfileIntoDB = async (
     },
   });
 
-  return updatedProfile;
+  return getMyProfileFromDB(userId);
 };
 
 const getAssignedStudentsFromDB = async (teacherUserId: string) => {
