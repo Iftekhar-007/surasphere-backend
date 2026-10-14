@@ -58,4 +58,4 @@ ENV PORT=5000
 EXPOSE 5000
 
 # Sync database schema then start production server with tsx
-CMD ["sh", "-c", "pnpm prisma db push --skip-generate && pnpm tsx src/server.ts"]
+CMD ["sh", "-c", "pnpm prisma db push && pnpm tsx src/server.ts"]
