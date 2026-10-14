@@ -52,7 +52,9 @@ const loadEnvVariables = (): EnvConfig => {
   });
 
   const smtpUser = (process.env.SMTP_USER || process.env.EMAIL_SENDER_SMTP_USER || "").trim();
-  const smtpPass = (process.env.SMTP_PASS || process.env.EMAIL_SENDER_SMTP_PASS || "").replace(/\s+/g, "");
+  const smtpPass = (process.env.SMTP_PASS || process.env.EMAIL_SENDER_SMTP_PASS || "")
+    .replace(/^["']|["']$/g, "")
+    .replace(/\s+/g, "");
   const smtpHost = (process.env.SMTP_HOST || process.env.EMAIL_SENDER_SMTP_HOST || "smtp.gmail.com").trim();
   const smtpPort = Number(process.env.SMTP_PORT || process.env.EMAIL_SENDER_SMTP_PORT || 587);
   const smtpFrom =

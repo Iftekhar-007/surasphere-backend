@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { Transporter } from "nodemailer";
 import { envVars } from "../../config/env";
 
 export interface INewUserEmailData {
@@ -25,12 +25,18 @@ export interface IFreeTrialBookingData {
   message?: string | null;
 }
 
+let cachedTransporter: Transporter | null = null;
+
 const createTransporter = () => {
+  if (cachedTransporter) {
+    return cachedTransporter;
+  }
+
   if (!envVars.EMAIL_SENDER.SMTP_USER || !envVars.EMAIL_SENDER.SMTP_PASS) {
     return null;
   }
 
-  return nodemailer.createTransport({
+  cachedTransporter = nodemailer.createTransport({
     host: envVars.EMAIL_SENDER.SMTP_HOST,
     port: envVars.EMAIL_SENDER.SMTP_PORT,
     secure: envVars.EMAIL_SENDER.SMTP_PORT === 465,
@@ -42,7 +48,37 @@ const createTransporter = () => {
       rejectUnauthorized: false,
     },
   });
+
+  return cachedTransporter;
 };
+
+/**
+ * Verify SMTP credentials and connection on server boot
+ */
+export const verifySmtpConnection = async (): Promise<boolean> => {
+  const transporter = createTransporter();
+  if (!transporter) {
+    console.warn(
+      `[Email Notification]: ℹ️ SMTP is not configured in .env (SMTP_USER or SMTP_PASS missing). Email sending is currently disabled.`
+    );
+    return false;
+  }
+
+  try {
+    await transporter.verify();
+    console.log(
+      `[Email Notification]: 📧 SMTP server connected successfully (${envVars.EMAIL_SENDER.SMTP_HOST}:${envVars.EMAIL_SENDER.SMTP_PORT}) authenticated as "${envVars.EMAIL_SENDER.SMTP_USER}"`
+    );
+    return true;
+  } catch (error: any) {
+    console.error(
+      `[Email Notification]: ❌ SMTP connection failed for "${envVars.EMAIL_SENDER.SMTP_USER}":`,
+      error?.message || error
+    );
+    return false;
+  }
+};
+
 
 /**
  * Sends a "New Verification Request" notification email to Admin
