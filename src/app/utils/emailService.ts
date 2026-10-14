@@ -15,6 +15,16 @@ export interface IVerificationStatusEmailData {
   rejectionReason?: string | null;
 }
 
+export interface IFreeTrialBookingData {
+  name: string;
+  email: string;
+  phone?: string | null;
+  course?: string | null;
+  ageGroup?: string | null;
+  preferredTime?: string | null;
+  message?: string | null;
+}
+
 const createTransporter = () => {
   if (!envVars.EMAIL_SENDER.SMTP_USER || !envVars.EMAIL_SENDER.SMTP_PASS) {
     return null;
@@ -515,3 +525,343 @@ export const sendStudentVerificationStatusEmail = async (
     return { success: false, error: error?.message || error };
   }
 };
+
+/**
+ * Sends a "3-Day Free Trial Booking" notification email directly to Admin
+ */
+export const sendFreeTrialNotificationToAdmin = async (
+  trialData: IFreeTrialBookingData
+) => {
+  const adminEmail = envVars.ADMIN.EMAIL;
+  const adminName = envVars.ADMIN.NAME;
+  const whatsappDigits = trialData.phone ? trialData.phone.replace(/[^0-9+]/g, "") : null;
+  const whatsappUrl = whatsappDigits ? `https://wa.me/${whatsappDigits.replace(/^\+/, "")}` : null;
+  const mailtoUrl = `mailto:${trialData.email}?subject=SurahSphere%20Free%20Trial%20Booking%20-%20Schedule%20Your%20Class`;
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New 3-Day Free Trial Booking</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F8EFE3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #171713;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #F8EFE3; padding: 40px 10px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" max-width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%; background-color: #FFFDF7; border-radius: 20px; border: 1px solid #D9C8A8; overflow: hidden; box-shadow: 0 10px 25px rgba(18, 56, 24, 0.05);">
+          
+          <!-- Gold & Emerald Header Accent -->
+          <tr>
+            <td height="8" style="background: linear-gradient(90deg, #B58A2A 0%, #123818 50%, #B58A2A 100%);"></td>
+          </tr>
+
+          <!-- Academy Branding Header -->
+          <tr>
+            <td style="padding: 32px 36px 20px 36px; text-align: center; border-bottom: 1px solid #ECE3D4;">
+              <h1 style="margin: 0; font-size: 26px; font-weight: 800; color: #123818; letter-spacing: -0.5px;">
+                SURAH<span style="color: #B58A2A;">SPHERE</span>
+              </h1>
+              <p style="margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: #696355; font-weight: 600;">
+                Online Quran Academy
+              </p>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="padding: 36px 36px 28px 36px;">
+              <div style="display: inline-block; padding: 6px 14px; background-color: #E8F5E9; border: 1px solid #C8E6C9; border-radius: 30px; font-size: 12px; font-weight: 700; color: #123818; margin-bottom: 16px;">
+                ⭐ NEW 3-DAY FREE TRIAL BOOKING
+              </div>
+
+              <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 700; color: #123818;">
+                Assalamu Alaikum ${adminName},
+              </h2>
+
+              <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #4B463C;">
+                A student has just submitted a booking request for a <strong>3-Day Free Quran Trial Session</strong> via the website homepage. Here are the booking details:
+              </p>
+
+              <!-- Booking Details Card -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #FAF4EB; border-radius: 14px; border: 1px solid #E4D7C2; margin-bottom: 24px; padding: 18px 20px;">
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; width: 140px; font-weight: 600;">Full Name:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #123818; font-weight: 700;">${trialData.name}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Email Address:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #123818; font-weight: 600;">
+                    <a href="mailto:${trialData.email}" style="color: #123818; text-decoration: underline;">${trialData.email}</a>
+                  </td>
+                </tr>
+                ${
+                  trialData.phone
+                    ? `
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Phone / WhatsApp:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #123818; font-weight: 600;">
+                    ${trialData.phone}
+                    ${whatsappUrl ? `<a href="${whatsappUrl}" style="margin-left: 8px; font-size: 12px; color: #047857; text-decoration: none; font-weight: bold;">(Open WhatsApp 💬)</a>` : ""}
+                  </td>
+                </tr>
+                `
+                    : ""
+                }
+                ${
+                  trialData.course
+                    ? `
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Interested Course:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #B58A2A; font-weight: 700;">${trialData.course}</td>
+                </tr>
+                `
+                    : ""
+                }
+                ${
+                  trialData.ageGroup
+                    ? `
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Student Age Group:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #123818; font-weight: 600;">${trialData.ageGroup}</td>
+                </tr>
+                `
+                    : ""
+                }
+                ${
+                  trialData.preferredTime
+                    ? `
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Preferred Timing:</td>
+                  <td style="padding: 8px 0; font-size: 14px; color: #123818; font-weight: 600;">${trialData.preferredTime}</td>
+                </tr>
+                `
+                    : ""
+                }
+                ${
+                  trialData.message
+                    ? `
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600; vertical-align: top;">Notes / Message:</td>
+                  <td style="padding: 8px 0; font-size: 13px; color: #4B463C; line-height: 1.5; font-style: italic;">"${trialData.message}"</td>
+                </tr>
+                `
+                    : ""
+                }
+                <tr>
+                  <td style="padding: 8px 0; font-size: 13px; color: #696355; font-weight: 600;">Submitted At:</td>
+                  <td style="padding: 8px 0; font-size: 12px; color: #8C681C; font-weight: 500;">${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}</td>
+                </tr>
+              </table>
+
+              <!-- Call to Action Buttons -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 12px; margin-bottom: 24px;">
+                <tr>
+                  <td align="center">
+                    <a href="${mailtoUrl}" style="display: inline-block; background-color: #123818; color: #FFFDF7; text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: 12px; margin: 4px; border: 1px solid #B58A2A;">
+                      📧 Reply via Email
+                    </a>
+                    ${
+                      whatsappUrl
+                        ? `
+                    <a href="${whatsappUrl}" style="display: inline-block; background-color: #25D366; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: 12px; margin: 4px;">
+                      💬 Chat on WhatsApp
+                    </a>
+                    `
+                        : ""
+                    }
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #817A6C; text-align: center;">
+                Prompt follow-ups increase student trial-to-enrollment conversions by over 80%.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 36px; background-color: #FAF4EB; border-top: 1px solid #ECE3D4; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #817A6C;">
+                © ${new Date().getFullYear()} SurahSphere Academy. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+  try {
+    const transporter = createTransporter();
+
+    if (!transporter) {
+      console.log(
+        `[Email Notification]: ℹ️ SMTP is not configured in .env. 3-Day Free Trial booking for "${trialData.email}" was not sent to Admin.`
+      );
+      return { success: false, reason: "SMTP credentials not provided in .env" };
+    }
+
+    const mailOptions = {
+      from: envVars.EMAIL_SENDER.SMTP_FROM,
+      to: adminEmail,
+      subject: `[SurahSphere] 🌟 New 3-Day Free Trial Booking: ${trialData.name}`,
+      html: htmlContent,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Notification]: ✅ 3-Day Free Trial booking sent successfully to Admin (${adminEmail}) (Message ID: ${info.messageId})`
+    );
+    return { success: true, messageId: info.messageId };
+  } catch (error: any) {
+    console.error(
+      `[Email Notification]: ❌ Failed to send free trial notification to admin:`,
+      error?.message || error
+    );
+    return { success: false, error: error?.message || error };
+  }
+};
+
+/**
+ * Sends a confirmation email to the student acknowledging their 3-day free trial request
+ */
+export const sendFreeTrialConfirmationToStudent = async (
+  trialData: IFreeTrialBookingData
+) => {
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3-Day Free Trial Booking Received</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F8EFE3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #171713;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #F8EFE3; padding: 40px 10px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" max-width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%; background-color: #FFFDF7; border-radius: 20px; border: 1px solid #D9C8A8; overflow: hidden; box-shadow: 0 10px 25px rgba(18, 56, 24, 0.05);">
+          
+          <!-- Gold & Emerald Header Accent -->
+          <tr>
+            <td height="8" style="background: linear-gradient(90deg, #B58A2A 0%, #123818 50%, #B58A2A 100%);"></td>
+          </tr>
+
+          <!-- Academy Header -->
+          <tr>
+            <td style="padding: 32px 36px 20px 36px; text-align: center; border-bottom: 1px solid #ECE3D4;">
+              <p style="margin: 0 0 6px 0; font-size: 18px; color: #B58A2A; font-family: 'Amiri', serif;">
+                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+              </p>
+              <h1 style="margin: 0; font-size: 26px; font-weight: 800; color: #123818; letter-spacing: -0.5px;">
+                SURAH<span style="color: #B58A2A;">SPHERE</span>
+              </h1>
+              <p style="margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: #696355; font-weight: 600;">
+                Online Quran Academy
+              </p>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="padding: 36px 36px 28px 36px;">
+              <div style="display: inline-block; padding: 6px 14px; background-color: #E8F5E9; border: 1px solid #C8E6C9; border-radius: 30px; font-size: 12px; font-weight: 700; color: #123818; margin-bottom: 16px;">
+                ✨ TRIAL REGISTRATION RECEIVED
+              </div>
+
+              <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 700; color: #123818;">
+                Assalamu Alaikum ${trialData.name},
+              </h2>
+
+              <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.6; color: #4B463C;">
+                Alhamdulillah! We have successfully received your request for a <strong>3-Day Free Quran Trial</strong> at SurahSphere Academy.
+              </p>
+
+              <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #4B463C;">
+                One of our academic coordinators will review your preferences and contact you within <strong>24 hours</strong> (via WhatsApp or Email) to confirm your certified tutor and schedule your first 1-on-1 evaluation class.
+              </p>
+
+              <!-- Highlights Box -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #FAF4EB; border-radius: 14px; border: 1px solid #E4D7C2; margin-bottom: 24px; padding: 18px 20px;">
+                <tr>
+                  <td style="padding: 6px 0; font-size: 13px; color: #123818; font-weight: 600;">
+                    ✓ 3 Full Days of 1-on-1 Personalized Lessons
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 13px; color: #123818; font-weight: 600;">
+                    ✓ Hand-picked Certified Quran Scholars & Tutors
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 13px; color: #123818; font-weight: 600;">
+                    ✓ 100% Free — No Credit Card Required
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 13px; color: #123818; font-weight: 600;">
+                    ✓ Flexible Timing to Suit Your Daily Schedule
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 0 0 8px 0; font-size: 13px; line-height: 1.6; color: #4B463C;">
+                If you have any urgent questions, feel free to reply directly to this email or reach out to us at <a href="mailto:${envVars.ADMIN.EMAIL}" style="color: #123818; font-weight: 700; text-decoration: underline;">${envVars.ADMIN.EMAIL}</a>.
+              </p>
+
+              <p style="margin: 16px 0 0 0; font-size: 14px; font-weight: 700; color: #123818;">
+                Barakallahu Feekum,<br>
+                <span style="font-weight: 500; font-size: 13px; color: #8C681C;">SurahSphere Academic Admissions Team</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 36px; background-color: #FAF4EB; border-top: 1px solid #ECE3D4; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #817A6C;">
+                © ${new Date().getFullYear()} SurahSphere Academy. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+  try {
+    const transporter = createTransporter();
+    if (!transporter) return { success: false, reason: "SMTP not configured" };
+
+    const mailOptions = {
+      from: envVars.EMAIL_SENDER.SMTP_FROM,
+      to: trialData.email,
+      subject: `[SurahSphere] 📖 Your 3-Day Free Quran Trial Booking Confirmed!`,
+      html: htmlContent,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(
+      `[Email Notification]: ✅ Free trial confirmation sent to student ${trialData.email} (Message ID: ${info.messageId})`
+    );
+    return { success: true, messageId: info.messageId };
+  } catch (error: any) {
+    console.error(
+      `[Email Notification]: ❌ Failed to send trial confirmation to student:`,
+      error?.message || error
+    );
+    return { success: false, error: error?.message || error };
+  }
+};
+
