@@ -236,6 +236,7 @@ export const sendNewUserSignupNotificationToAdmin = async (
     const mailOptions = {
       from: envVars.EMAIL_SENDER.SMTP_FROM,
       to: adminEmail,
+      replyTo: userData.email,
       subject: `[SurahSphere] 🔔 New Verification Request: ${userData.name} (${roleName})`,
       html: htmlContent,
     };
@@ -402,6 +403,7 @@ export const sendWelcomeEmailToUser = async (userData: INewUserEmailData) => {
     const mailOptions = {
       from: envVars.EMAIL_SENDER.SMTP_FROM,
       to: userData.email,
+      replyTo: envVars.ADMIN.EMAIL,
       subject: `[SurahSphere] Registration Confirmation: Welcome ${userData.name}!`,
       html: htmlContent,
     };
@@ -544,6 +546,7 @@ export const sendStudentVerificationStatusEmail = async (
     const mailOptions = {
       from: envVars.EMAIL_SENDER.SMTP_FROM,
       to: data.email,
+      replyTo: envVars.ADMIN.EMAIL,
       subject: `[SurahSphere] Account Verification Status: ${data.status === "VERIFIED" ? "Approved ✅" : "Notice ℹ️"}`,
       html: htmlContent,
     };
@@ -747,6 +750,7 @@ export const sendFreeTrialNotificationToAdmin = async (
     const mailOptions = {
       from: envVars.EMAIL_SENDER.SMTP_FROM,
       to: adminEmail,
+      replyTo: trialData.email,
       subject: `[SurahSphere] 🌟 New 3-Day Free Trial Booking: ${trialData.name}`,
       html: htmlContent,
     };
@@ -883,6 +887,7 @@ export const sendFreeTrialConfirmationToStudent = async (
     const mailOptions = {
       from: envVars.EMAIL_SENDER.SMTP_FROM,
       to: trialData.email,
+      replyTo: envVars.ADMIN.EMAIL,
       subject: `[SurahSphere] 📖 Your 3-Day Free Quran Trial Booking Confirmed!`,
       html: htmlContent,
     };
