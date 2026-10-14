@@ -51,14 +51,14 @@ const loadEnvVariables = (): EnvConfig => {
     }
   });
 
-  const smtpUser = process.env.SMTP_USER || process.env.EMAIL_SENDER_SMTP_USER || "";
-  const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_SENDER_SMTP_PASS || "";
-  const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_SENDER_SMTP_HOST || "smtp.gmail.com";
+  const smtpUser = (process.env.SMTP_USER || process.env.EMAIL_SENDER_SMTP_USER || "").trim();
+  const smtpPass = (process.env.SMTP_PASS || process.env.EMAIL_SENDER_SMTP_PASS || "").replace(/\s+/g, "");
+  const smtpHost = (process.env.SMTP_HOST || process.env.EMAIL_SENDER_SMTP_HOST || "smtp.gmail.com").trim();
   const smtpPort = Number(process.env.SMTP_PORT || process.env.EMAIL_SENDER_SMTP_PORT || 587);
   const smtpFrom =
-    process.env.SMTP_FROM ||
+    (process.env.SMTP_FROM ||
     process.env.EMAIL_SENDER_SMTP_FROM ||
-    (smtpUser ? `"SurahSphere Academy" <${smtpUser}>` : '"SurahSphere Academy" <no-reply@surahsphere.com>');
+    (smtpUser ? `"SurahSphere Academy" <${smtpUser}>` : '"SurahSphere Academy" <no-reply@surahsphere.com>')).trim();
 
   return {
     NODE_ENV: process.env.NODE_ENV || "development",
