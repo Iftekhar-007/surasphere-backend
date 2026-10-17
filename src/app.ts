@@ -6,12 +6,32 @@ import status from "http-status";
 import { indexRoutes } from "./app/Routes";
 import { globalErrorHandler } from "./app/errorhelpers/globalErrorHandler";
 
+import { envVars } from "./config/env";
+
 const app: Application = express();
 export const port = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://surahsphere.com",
+  "https://www.surahsphere.com",
+  envVars.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".surahsphere.com") ||
+        origin === "https://surahsphere.com"
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );

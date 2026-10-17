@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, bearer } from "better-auth/plugins";
@@ -14,8 +15,11 @@ export const auth = betterAuth({
   trustedOrigins: [
     "http://localhost:3000",
     "http://localhost:5173",
+    "https://surahsphere.com",
+    "https://www.surahsphere.com",
+    envVars.FRONTEND_URL,
     envVars.BETTER_AUTH_URL,
-  ],
+  ].filter(Boolean) as string[],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -49,8 +53,8 @@ export const auth = betterAuth({
             currentRole === "ADMIN" || requestedRole === "ADMIN"
               ? "ADMIN"
               : requestedRole === "TEACHER"
-              ? "TEACHER"
-              : "STUDENT";
+                ? "TEACHER"
+                : "STUDENT";
           return {
             data: {
               ...user,
@@ -113,6 +117,14 @@ export const auth = betterAuth({
   },
   advanced: {
     useSecureCookies: envVars.NODE_ENV === "production",
+    crossSubdomainCookies: {
+      enabled: envVars.NODE_ENV === "production",
+      domain: "surahsphere.com",
+    },
+    defaultCookieAttributes: {
+      sameSite: envVars.NODE_ENV === "production" ? "none" : "lax",
+      secure: envVars.NODE_ENV === "production",
+    },
   },
 });
 
